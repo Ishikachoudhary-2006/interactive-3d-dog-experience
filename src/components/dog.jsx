@@ -1,31 +1,68 @@
 
+import { useRef, useEffect } from 'react'
+
 import {
-  OrbitControls,
   useGLTF,
-  Bounds,
-  Center
+  useAnimations,
+  Center,
+  OrbitControls
 } from '@react-three/drei'
 
 const Dog = () => {
 
-  const model = useGLTF("/models/dog.drc.glb")
+  const group = useRef()
+
+  const { scene, animations } = useGLTF(
+    '/models/dog.drc.glb'
+  )
+
+  const { actions } = useAnimations(
+    animations,
+    group
+  )
+
+  useEffect(() => {
+    const animation = actions['Take 001']
+
+    if (animation) {
+      animation.reset()
+      animation.play()
+    }
+  }, [actions])
 
   return (
     <>
-      <Bounds fit clip observe margin={1.2}>
+      <group ref={group}>
         <Center>
-          <primitive object={model.scene} />
+          <primitive
+            object={scene}
+            scale={2}
+          />
         </Center>
-      </Bounds>
+      </group>
 
       <ambientLight intensity={1.5} />
 
       <directionalLight
         position={[5, 5, 5]}
+        intensity={3}
+      />
+
+      <directionalLight
+        position={[-5, 3, 5]}
         intensity={2}
       />
 
-      <OrbitControls makeDefault />
+      <hemisphereLight
+        color="#ffffff"
+        groundColor="#555555"
+        intensity={1}
+      />
+
+      <OrbitControls
+        makeDefault
+        enablePan={false}
+      />
     </>
   )
 }
