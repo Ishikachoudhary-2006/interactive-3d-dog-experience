@@ -5,8 +5,10 @@ import {
   useGLTF,
   useAnimations,
   Center,
-  OrbitControls
+  OrbitControls,
+  useTexture
 } from '@react-three/drei'
+import { normalMap } from 'three/tsl'
 
 const Dog = () => {
 
@@ -29,7 +31,13 @@ const Dog = () => {
       animation.play()
     }
   }, [actions])
+   
+  const textures = useTexture ({
+    normalMap:"/dog_normals.jpg"
 
+  })
+  model.scene.traverse(())
+  
   return (
     <>
       <group ref={group}>
