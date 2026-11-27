@@ -36,11 +36,11 @@ const Dog = () => {
     normalMap:"/dog_normals.jpg"
 
   })
-  model.scene.traverse(())
+ 
   
   return (
     <>
-      <group ref={group}>
+      <group ref={group}> 
         <Center>
           <primitive
             object={scene}
